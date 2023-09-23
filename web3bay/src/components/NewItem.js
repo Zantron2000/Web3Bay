@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
-function SnackNewForm() {
+function NewItemForm() {
  let navigate = useNavigate();
  const API = process.env.REACT_APP_API_URL;
 
@@ -60,4 +60,4 @@ const [item, setitem] = useState({
   );
 }
 
-export default SnackNewForm;
+export default NewItemForm;
