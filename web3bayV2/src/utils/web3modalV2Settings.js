@@ -4,7 +4,7 @@ import {
   w3mProvider,
 } from "@web3modal/ethereum";
 import { configureChains, createConfig } from "wagmi";
-import { mainnet, goerli } from "wagmi/chains";
+import { polygon, mainnet, goerli, sepolia } from "wagmi/chains";
 import { providers } from "ethers";
 
 // 1. Get projectID at https://cloud.walletconnect.com
@@ -16,7 +16,8 @@ const projectId =
   process.env.REACT_APP_PROJECT_ID ?? "773ec2d1dd0346a1413f5ebc1649501d";
 
 // 2. Configure wagmi client
-const chains = [mainnet, goerli];
+const chains = [mainnet, goerli, sepolia, polygon];
+const defaultChain = mainnet;
 
 const { publicClient } = configureChains(chains, [
   w3mProvider({
@@ -48,11 +49,10 @@ function walletClientToEthers5Signer(walletClient) {
   return signer;
 }
 
-const web3modalV2Settings = {
+module.exports = {
   projectId,
   wagmiConfig,
   ethereumClient,
   walletClientToEthers5Signer,
+  defaultChain,
 };
-
-export default web3modalV2Settings;
