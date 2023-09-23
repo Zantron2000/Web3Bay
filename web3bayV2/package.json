@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ensdomains/ensjs": "^3.0.0-alpha.67",
     "@spruceid/ssx": "^2.1.0",
     "@spruceid/ssx-react": "^2.0.2",
     "@wagmi/core": "^1.4.2",

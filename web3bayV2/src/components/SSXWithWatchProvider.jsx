@@ -2,6 +2,7 @@ import React from "react";
 import { SSXProvider } from "@spruceid/ssx-react";
 import { useWalletClient } from "wagmi";
 import { disconnect } from "@wagmi/core";
+import { SSXAlchemyProviderNetworks, SSXRPCProviders } from "@spruceid/ssx";
 
 async function attemptSignIn(ssx) {
   try {
@@ -24,6 +25,13 @@ function SSXWithWatchProvider({ children }) {
       ssxConfig={{
         siweConfig: {
           domain: "localhost:3000",
+        },
+        providers: {
+          rpc: {
+            service: SSXRPCProviders.SSXAlchemyProvider,
+            apiKey: "XzrfjKXuPEJJQMMItlq1cLG9KL0SMjKu",
+            network: SSXAlchemyProviderNetworks.MAINNET,
+          },
         },
       }}
       web3Provider={web3Provider}

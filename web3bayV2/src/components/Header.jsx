@@ -1,11 +1,8 @@
 import { Web3NetworkSwitch, Web3Button } from "@web3modal/react";
+import { useSSX } from "@spruceid/ssx-react";
 
-// Write a react component with tailwind css styling that renders a header with the following:
-// ENS Redirect on the left side, and two buttons on the right side depending on if a prop
-// called signedIn is true (it is a boolean value)
-// If signedIn is true, render a button with the text "My Account" and a button with the text "Sign Out"
 function Header({ signedIn }) {
-  console.log(signedIn);
+  const { ssx } = useSSX();
 
   return (
     <div className="flex justify-between items-center py-4 px-8 border-white border-b-2 h-[10%]">
