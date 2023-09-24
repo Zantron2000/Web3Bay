@@ -19,6 +19,7 @@ import { ENS } from "@ensdomains/ensjs";
  * @returns {{ id: String, name: String, labelName: String, labelhash: String }[]} The processed ENS domains
  */
 const processENSData = (ensData) => {
+  console.log("DATA:", ensData);
   return ensData?.filter((domain) => {
     const domains = domain.name.split(".");
     return domains.length === 2;
@@ -35,7 +36,7 @@ const getENSNames = async (address) => {
   const url = "https://api.thegraph.com/subgraphs/name/ensdomains/ens";
   const query = `
   {
-    domains(first: 5, where:{
+    domains(where:{
       owner:"${address.toLowerCase()}"
     }) {
       id
@@ -47,7 +48,7 @@ const getENSNames = async (address) => {
   `;
 
   const response = await axios.post(url, { query });
-  return processENSData(response?.data?.domains);
+  return processENSData(response.data.data.domains);
 };
 
 /**
@@ -61,15 +62,22 @@ const ensExists = async (ens) => {
   const query = `
   {
     domains(where:{
-      name:"${ens.toLowerCase()}"
+      name:"store.${ens.toLowerCase()}"
     }) {
       name
+      owner {
+        id
+      }
     }
   }
   `;
 
   const response = await axios.post(url, { query });
-  return response?.data?.domains?.length > 0;
+  return (
+    response.data.data.domains.length > 0 &&
+    response.data.data.domains[0].owner.id !==
+      "0x0000000000000000000000000000000000000000"
+  );
 };
 
 /**
@@ -85,7 +93,7 @@ const createStoreSubdomain = async (ens, ssx) => {
     await ENSInstance.setProvider(ssx.getProvider());
 
     const storeSubdomain = `store.${ens}`;
-    const owner = ssx?.getAddress();
+    const owner = ssx?.address();
 
     const response = await ENSInstance.createSubname(storeSubdomain, {
       owner,

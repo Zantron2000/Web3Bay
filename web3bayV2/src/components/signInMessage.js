@@ -1,10 +1,17 @@
 const SignInMessage = () => {
-    return (
+  return (
+    <div className="flex justify-center flex-col p-24">
       <div>
-        <h2>Please Sign In</h2>
-        <p>To access this feature, please sign in to your account by clicking the button at the top right.</p>
+        <h1 className="text-lg">Please Sign In</h1>
       </div>
-    );
-  };
-  
-  export default SignInMessage;
+      <div>
+        <p>
+          To access this feature, please sign in to your account by clicking the
+          button at the top right.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default SignInMessage;

@@ -1,140 +1,121 @@
 import { useState } from "react";
-import SignInMessage from "./signInMessage";
-import Items from "./Items";
+import { isValidItem } from "@/utils/itemTools";
 
+const ItemForm = ({
+  addItem,
+  doneCreating,
+  itemCount,
+  clearEditItem,
+  editItem,
+}) => {
+  const [badFields, setBadFields] = useState({});
+  const [item, setItem] = useState(
+    editItem ?? { title: "", price: "", description: "", image: null }
+  );
 
-const ItemForm = ({ signedIn }) => {
-  
-  const [item, setItem] = useState({
-    name: "",
-    price: "",
-    description: "",
-    // image: true,
-  });
-
-console.log(item)
-const [toggle, setToggle] = useState(false)
-
-const [file, setFile] = useState();
-
-const handleTextChange = (event) => {
-    setItem({ ...item, [event.target.id]: event.target.value });
+  const setProperty = (key, value) => {
+    setItem({ ...item, [key]: value });
   };
 
-const handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(item)
-    if(item) setItem(item);
-    setToggle(!toggle)
+
+    const { isValid, invalidReasons } = isValidItem(item);
+
+    if (isValid) {
+      addItem(item);
+      setItem(undefined);
+      clearEditItem();
+      doneCreating();
+    } else {
+      setBadFields(invalidReasons);
+    }
   };
 
-const handleImageChange = (e) => {
-    console.log(e.target.files);
-    setFile(URL.createObjectURL(e.target.files[0]));
-} 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    setItem(undefined);
+    doneCreating();
+  };
+
+  const handleImageChange = (e) => {
+    setProperty("image", e.target.files[0]);
+  };
 
   return (
-    <div class="grid place-items-center h-screen">
-      {signedIn ? (
-        <>
-          <form class=" max-w-lg" onSubmit={handleSubmit}>
-            <div class="md:flex md:items-center mb-6">
-              <label
-                class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                for="name"
-              >
-                Item Name
-              </label>
-              <div>
-                <input
-                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                  id="name"
-                  value={item.name}
-                  type="text"
-                  onChange={handleTextChange}
-                  required
-                />
-                <p class="text-blue-500 text-xs italic">
-                  Please fill out this field.
-                </p>
-              </div>
-            </div>
-            <div class="md:flex md:items-center mb-6">
-              <label
-                class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                for="price"
-              >
-                Price
-              </label>
-              <div>
-                <input
-                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                  id="price"
-                  value={item.price}
-                  type="text"
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-            <div class="md:flex md:items-center mb-6">
-              <label
-                class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4"
-                for="price"
-              >
-                Description
-              </label>
-              <div>
-                <input
-                  class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                  id="description"
-                  value={item.description}
-                  type="text"
-                  onChange={handleTextChange}
-                />
-              </div>
-            </div>
-            <div class="md:flex md:items-center mb-6">
-              <div>
-                <label
-                  class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  for="image"
-                ></label>
+    <div>
+      <div className="flex justify-center h-screen">
+        <form
+          className="flex flex-col justify-start items-start text-white w-1/2 h-[100%]"
+          onSubmit={handleSubmit}
+        >
+          <div className="flex flex-col justify-center items-start text-white w-[100%] my-2">
+            <label htmlFor="title">Title</label>
+            <input
+              className={`border text-black border-white apperance-none`}
+              type="text"
+              id="title"
+              value={item.title}
+              onChange={(e) => setProperty("title", e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col justify-center items-start text-white w-[100%] h-1/6">
+            <label htmlFor="price">Price in ETH</label>
+            <input
+              className={`border border-black text-black w-1/2 ${
+                badFields.price ?? "border-black"
+              }`}
+              type="text"
+              id="price"
+              value={item.price}
+              onChange={(e) => setProperty("price", e.target.value)}
+            />
+          </div>
 
-                <div>
-                  <input
-                    class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                    aria-describedby="image_help"
-                    id="image"
-                    type="file"
-                    value={item.image}
-                    onChange={handleImageChange}
-                  />
-                  <img src={file} />
-                  <div
-                    class="mt-1 text-sm text-gray-500 dark:text-gray-300"
-                    id="user_avatar_help"
-                  >
-                    Upload an image of your item
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div class="md:flex md:items-center mb-6">
-                <button
-                  class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
-                  type="submit"
-                >
-                  Submit 
-                </button>
-              </div>
-            </div>
-          </form>
-        </>
-      ) : (
-        <SignInMessage />
-      )}
-      {toggle ? <Items item={item} /> : null}
+          <div className="flex flex-col justify-center items-start text-white w-[100%] h-1/6">
+            <label htmlFor="description">Description</label>
+            <textarea
+              className="border-2 border-black text-black w-3/4 h-3/4"
+              type="text"
+              id="description"
+              value={item.description}
+              onChange={(e) => setProperty("description", e.target.value)}
+            />
+          </div>
+          <div className="flex flex-col justify-center items-start text-white w-[100%] h-1/6">
+            <label htmlFor="image">Image</label>
+            <input
+              className="border-2 border-black"
+              type="file"
+              id="image"
+              onChange={handleImageChange}
+            />
+          </div>
+          <div className="w-[100%] h-1/6">
+            <button
+              className="border-2 border-white text-white w-[100%] h-1/2 rounded-lg hover:bg-white hover:text-black my-8"
+              type="submit"
+            >
+              Submit
+            </button>
+            {itemCount ? (
+              <button
+                className="border-2 border-white text-white w-[100%] h-1/2 rounded-lg hover:bg-red hover:text-black"
+                onClick={handleCancel}
+              >
+                Cancel
+              </button>
+            ) : null}
+          </div>
+        </form>
+        <div className="w-1/2 flex items-center justify-center">
+          <div>
+            {Object.entries(badFields).map(([key, value]) => (
+              <div key={key}>{value}</div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

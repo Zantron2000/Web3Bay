@@ -1,8 +1,8 @@
 import { useState } from "react";
 import BuySection from "./BuySection";
 
-function Items({ items, setItem }) {
-  
+function Items({ items }) {
+  const [selectedItem, setSelectedItem] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -24,8 +24,7 @@ function Items({ items, setItem }) {
                 className="w-3/4 h-3/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={() => {
                   setShowModal(true);
-                  console.log("Hi");
-                  setItem(item);
+                  setSelectedItem(item);
                 }}
               >
                 Buy
@@ -34,7 +33,13 @@ function Items({ items, setItem }) {
           </div>
         ))}
         <>
-      {showModal ? <BuySection setShowModal={setShowModal} /> : null}
+          {showModal ? (
+            <BuySection
+              setShowModal={setShowModal}
+              clearActiveItem={() => setSelectedItem({})}
+              item={selectedItem}
+            />
+          ) : null}
         </>
       </div>
     </div>

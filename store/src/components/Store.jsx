@@ -39,18 +39,10 @@ const items = [
 ];
 
 function Store() {
-  const [selectedItem, setSelectedItem] = useState(null);
-
   return (
     <div>
       <Header signedIn={true} />
-      <Items items={items} setItem={setSelectedItem} />
-      {/* {selectedItem ? (
-        <BuySection
-          item={selectedItem}
-          close={() => setSelectedItem(undefined)}
-        />
-      ) : null} */}
+      <Items items={items} />
     </div>
   );
 }

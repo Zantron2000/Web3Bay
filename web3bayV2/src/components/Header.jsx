@@ -6,7 +6,7 @@ function Header({ signedIn }) {
 
   return (
     <div className="flex justify-between items-center py-4 px-8 border-white border-b-2 h-[10%]">
-      <div className="text-2xl font-bold">ENS Redirect</div>
+      <div className="text-2xl font-bold">Web3Bay</div>
       <div className="flex items-between">
         {signedIn ? (
           <>
@@ -14,7 +14,7 @@ function Header({ signedIn }) {
               <Web3NetworkSwitch />
             </div>
             <div className="px-2">
-              <Web3Button label="Disconnect">Sign Out</Web3Button>
+              <Web3Button label="Disconnect"></Web3Button>
             </div>
           </>
         ) : (
