@@ -19,7 +19,6 @@ import { ENS } from "@ensdomains/ensjs";
  * @returns {{ id: String, name: String, labelName: String, labelhash: String }[]} The processed ENS domains
  */
 const processENSData = (ensData) => {
-  console.log("DATA:", ensData);
   return ensData?.filter((domain) => {
     const domains = domain.name.split(".");
     return domains.length === 2;

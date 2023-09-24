@@ -3,7 +3,6 @@
 // text using tailwind css and on hover, make the background have a white border
 
 function EnsNames({ ensNames, setTarget }) {
-  console.log(ensNames);
   return (
     <div className="flex flex-col h-full overflow-y-auto">
       {ensNames.map((ens) => (

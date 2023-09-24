@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import BuySection from "./BuySection";
 
+import { useSSX } from "@spruceid/ssx-react";
+
 const items = [
   {
     title: "Item 1",
@@ -39,9 +41,12 @@ const items = [
 ];
 
 function Store() {
+  const { ssx, provider } = useSSX();
+  const session = ssx?.session();
+
   return (
     <div>
-      <Header signedIn={true} />
+      <Header signedIn={session} />
       <Items items={items} />
     </div>
   );
