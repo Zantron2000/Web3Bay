@@ -45,12 +45,12 @@ function Store() {
     <div>
       <Header signedIn={true} />
       <Items items={items} setItem={setSelectedItem} />
-      {selectedItem ? (
+      {/* {selectedItem ? (
         <BuySection
           item={selectedItem}
           close={() => setSelectedItem(undefined)}
         />
-      ) : null}
+      ) : null} */}
     </div>
   );
 }

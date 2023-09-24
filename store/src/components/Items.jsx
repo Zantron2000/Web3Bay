@@ -1,4 +1,10 @@
+import { useState } from "react";
+import BuySection from "./BuySection";
+
 function Items({ items, setItem }) {
+  
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className="bg-grey-300">
       <div className="flex flex-wrap justify-center">
@@ -17,6 +23,7 @@ function Items({ items, setItem }) {
               <button
                 className="w-3/4 h-3/4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full"
                 onClick={() => {
+                  setShowModal(true);
                   console.log("Hi");
                   setItem(item);
                 }}
@@ -26,6 +33,9 @@ function Items({ items, setItem }) {
             </div>
           </div>
         ))}
+        <>
+      {showModal ? <BuySection setShowModal={setShowModal} /> : null}
+        </>
       </div>
     </div>
   );
