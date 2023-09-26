@@ -8,12 +8,11 @@ import { polygon, mainnet, goerli, sepolia } from "wagmi/chains";
 import { providers } from "ethers";
 
 // 1. Get projectID at https://cloud.walletconnect.com
-if (!process.env.REACT_APP_PROJECT_ID) {
-  console.error("You need to provide REACT_APP_PROJECT_ID env variable");
+if (!process.env.NEXT_PUBLIC_PROJECT_ID) {
+  console.error("You need to provide NEXT_PUBLIC_PROJECT_ID env variable");
 }
 
-const projectId =
-  process.env.REACT_APP_PROJECT_ID ?? "773ec2d1dd0346a1413f5ebc1649501d";
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID ?? "";
 
 // 2. Configure wagmi client
 const chains = [mainnet, goerli, sepolia, polygon];

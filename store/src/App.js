@@ -6,7 +6,7 @@ import Store from "./components/Store";
 import { default as SSXWithWatchProvider } from "./components/SSXWithWatchProvider";
 
 // 1. Get projectId
-const projectId = "773ec2d1dd0346a1413f5ebc1649501d";
+const projectId = "5203fafce80429bcac7c91e78721fb28";
 
 // 2. Create wagmiConfig
 const chains = [mainnet];

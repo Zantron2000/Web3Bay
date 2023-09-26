@@ -22,7 +22,7 @@ function EnsStore({ ensTarget, ssx }) {
     const data = await response.json();
 
     response = await createStoreSubdomain(ensTarget, ssx);
-    console.log(data.data.IpfsHash);
+    console.log(response);
     if (response) {
       await initializeStoreRecords(
         `store.${ensTarget}`,

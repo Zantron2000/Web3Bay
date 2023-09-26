@@ -14,6 +14,7 @@ async function attemptSignIn(ssx) {
 }
 
 function SSXWithWatchProvider({ children }) {
+  console.log(process.env.NEXT_PUBLIC_ALCHEMY_API_KEY);
   const { data: walletClient } = useWalletClient();
 
   const web3Provider = {
@@ -29,7 +30,7 @@ function SSXWithWatchProvider({ children }) {
         providers: {
           rpc: {
             service: SSXRPCProviders.SSXAlchemyProvider,
-            apiKey: "XzrfjKXuPEJJQMMItlq1cLG9KL0SMjKu",
+            apiKey: process.env.REACT_APP_ALCHEMY_API_KEY,
             network: SSXAlchemyProviderNetworks.MAINNET,
           },
         },

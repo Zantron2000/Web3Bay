@@ -99,6 +99,7 @@ const createStoreSubdomain = async (ens, ssx) => {
       signer: ssx.getProvider().getSigner(owner),
       contract: "registry",
     });
+    await response.wait();
 
     return response;
   } catch (error) {
