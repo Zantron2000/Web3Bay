@@ -60,34 +60,49 @@ export async function GET() {
 
   running = true;
   try {
-    let currentlyUploaded = 0;
+    const shell = require("shelljs");
+    shell.cd("../store");
 
-    const { uploadId, bucketId, protocolLink, dynamicLinks, cid } =
-      await client.upload("./build", {
-        protocol: ProtocolEnum.IPFS,
-        name: "hello world",
-        onUploadInitiated: (uploadId) => {
-          console.log(`Upload with id ${uploadId} started...`);
-        },
-        onChunkUploaded: (uploadedSize, totalSize) => {
-          currentlyUploaded += uploadedSize;
-          console.log(`Uploaded ${currentlyUploaded} of ${totalSize} Bytes.`);
-        },
+    const promise = new Promise((resolve, reject) => {
+      const res1 = shell.exec("npm run build", { async: true });
+      // Call each on function and print out the first parameter on the child process
+      res1.on("close", (code) => {
+        console.log("close");
+        running = false;
+        resolve("done");
       });
-
-    console.log({
-      uploadId,
-      bucketId,
-      protocolLink,
-      dynamicLinks,
-      cid,
     });
+    await promise;
+    console.log("done");
+    while (running) {}
 
-    running = false;
-    return NextResponse.json({ cid });
+    // shell.execSync("cd app && npm run build");
+    // let currentlyUploaded = 0;
+    // const { uploadId, bucketId, protocolLink, dynamicLinks, cid } =
+    //   await client.upload("./build", {
+    //     protocol: ProtocolEnum.IPFS,
+    //     name: "hello world",
+    //     onUploadInitiated: (uploadId) => {
+    //       console.log(`Upload with id ${uploadId} started...`);
+    //     },
+    //     onChunkUploaded: (uploadedSize, totalSize) => {
+    //       currentlyUploaded += uploadedSize;
+    //       console.log(`Uploaded ${currentlyUploaded} of ${totalSize} Bytes.`);
+    //     },
+    //   });
+    // console.log({
+    //   uploadId,
+    //   bucketId,
+    //   protocolLink,
+    //   dynamicLinks,
+    //   cid,
+    // });
+    // running = false;
+    // return NextResponse.json({ cid });
+    return NextResponse.json({ message: res1 });
   } catch (error) {
-    console.log(error);
+    console.log(error.toString());
 
-    return NextResponse.json({ error });
+    return NextResponse.json({ error: error.toString() });
   }
 }
